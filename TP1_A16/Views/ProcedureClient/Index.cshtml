@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TP1_A16.Models.Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Liste des Clients</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<p>
+    <h2>Rechercher un client</h2>
+    <form asp-action="RechercherClient" method="get">
+        <input id="Text1" name="nom" type="text" placeholder="Rechercher Client" />
+        <button type="submit">Rechercher</button>
+    </form>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prenom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courriel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Courriel)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  nom =item.Nom  }) |
+                    @Html.ActionLink("Details", "Details", new { nom = item.Nom }) |
+                    @Html.ActionLink("Delete", "Delete", new { nom = item.Nom })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
