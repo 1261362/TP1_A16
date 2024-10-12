@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
 using TP1_A16.Models;
+using System.Collections.Generic;
 
 namespace TP1_A16.Controllers
 {
@@ -15,10 +16,9 @@ namespace TP1_A16.Controllers
         {
             this.configuration = configuration;
             connectionString = configuration.GetConnectionString("defaultConnection");
-
         }
 
-        //retourner tous les animaux
+        //get list of animals
         private List<TypeAnimal> getAnimaux()
         {
             SqlConnection conn;
@@ -26,13 +26,11 @@ namespace TP1_A16.Controllers
             SqlDataReader reader;
             List<TypeAnimal> listeAnimaux = new List<TypeAnimal>();
 
-            connectionString = configuration.GetConnectionString("defaultconnection");
-
             conn = new SqlConnection(connectionString);
             cmd = new SqlCommand
             {
                 CommandType = CommandType.Text,
-                CommandText = "SELECT nom, description, quantiteDisponible, prixAnimal, type FROM TypeAnimal", // Assuming your table is named TypeAnimal
+                CommandText = "SELECT id, nom, description, quantiteDisponible, prixAnimal, type FROM TypeAnimal",
                 Connection = conn
             };
 
@@ -42,17 +40,17 @@ namespace TP1_A16.Controllers
             while (reader.Read())
             {
                 TypeAnimal animal = new TypeAnimal()
-                {                  
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("id")), // Ensure you have Id property in TypeAnimal
                     Nom = reader.GetString(reader.GetOrdinal("nom")),
                     Description = reader.GetString(reader.GetOrdinal("description")),
                     QuantiteDisponible = reader.GetInt32(reader.GetOrdinal("quantiteDisponible")),
-                    PrixAnimal = reader.GetDouble(reader.GetOrdinal("prixAnimal")), 
+                    PrixAnimal = reader.GetDouble(reader.GetOrdinal("prixAnimal")),
                     Type = reader.GetString(reader.GetOrdinal("type"))
                 };
                 listeAnimaux.Add(animal);
             }
 
-            conn.Close();
             return listeAnimaux;
         }
 
@@ -62,72 +60,168 @@ namespace TP1_A16.Controllers
             return View(listeAnimaux);
         }
 
-
-
         // GET: ProcedureAnimauxController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            TypeAnimal animal = getAnimaux().Find(animal => animal.Id == id);
+
+            if (animal == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(animal);
         }
 
-        // GET: ProcedureAnimauxController/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ProcedureAnimauxController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(TypeAnimal animal)
         {
             try
             {
+                SqlConnection conn;
+                SqlCommand cmd;
+
+                conn = new SqlConnection(connectionString);
+                cmd = new SqlCommand
+                {
+                    CommandText = "INSERT INTO TypeAnimal (Nom, Description, QuantiteDisponible, PrixAnimal, Type) VALUES (@nom, @description, @quantiteDisponible, @prixAnimal, @type)",
+                    Connection = conn
+                };
+
+                cmd.Parameters.Add(new SqlParameter("@nom", animal.Nom));
+                cmd.Parameters.Add(new SqlParameter("@description", animal.Description));
+                cmd.Parameters.Add(new SqlParameter("@quantiteDisponible", animal.QuantiteDisponible));
+                cmd.Parameters.Add(new SqlParameter("@prixAnimal", animal.PrixAnimal));
+                cmd.Parameters.Add(new SqlParameter("@type", animal.Type));
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                ViewBag.SuccessMessage = "L'animal a été créé avec succès !";
+                conn.Close();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(animal);
             }
         }
 
-        // GET: ProcedureAnimauxController/Edit/5
+        // GET: TypeAnimalController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
-        }
+            TypeAnimal animal = getAnimaux().Find(a => a.Id == id);
 
-        // POST: ProcedureAnimauxController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
+            if (animal == null)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(animal);
         }
 
-        // GET: ProcedureAnimauxController/Delete/5
+        // POST: TypeAnimalController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, TypeAnimal updatedAnimal)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updatedAnimal);
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = "UPDATE TypeAnimal SET Nom = @Nom, Description = @Description, QuantiteDisponible = @QuantiteDisponible, PrixAnimal = @PrixAnimal, Type = @Type WHERE id = @Id",
+                        Connection = conn
+                    };
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nom", updatedAnimal.Nom);
+                    cmd.Parameters.AddWithValue("@Description", updatedAnimal.Description);
+                    cmd.Parameters.AddWithValue("@QuantiteDisponible", updatedAnimal.QuantiteDisponible);
+                    cmd.Parameters.AddWithValue("@PrixAnimal", updatedAnimal.PrixAnimal);
+                    cmd.Parameters.AddWithValue("@Type", updatedAnimal.Type);
+
+                    conn.Open();
+                    int count = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    ViewBag.SuccessMessage = "Animal successfully modified!";
+
+                    if (count > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "No animal found with that id.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error updating animal: {ex.Message}");
+            }
+
+            return View(updatedAnimal);
+        }
+
+        // GET: TypeAnimalController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: ProcedureAnimauxController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            TypeAnimal animal = getAnimaux().Find(a => a.Id == id);
+            if (animal == null)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+
+            return View(animal);
+        }
+
+        // POST: TypeAnimalController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, List<TypeAnimal>listeAnimaux)
+        {
+            try
+            {
+                    // vérifier validité id
+                    if (id <= 0)
+                    {
+                        return NotFound(); // Return NotFound if the ID is invalid
+                    }
+
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                    SqlCommand cmd = new SqlCommand
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = "DELETE FROM TypeAnimal WHERE id = @Id",
+                        Connection = conn
+                    };
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                   }
+
+                ViewBag.SuccessMessage = "Animal successfully deleted!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
             {
                 return View();
             }
