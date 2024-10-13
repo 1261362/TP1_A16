@@ -228,73 +228,7 @@ namespace TP1_A16.Controllers
             }
         }
 
-        //public IActionResult Rechercher(string subAnimal)
-        //{
-        //    // Get the full list of animals from the database
-        //    var allAnimals = getAnimaux();
-
-        //    // Filter the animals based on the search term
-        //    var filteredAnimals = allAnimals
-        //        .Where(a => a.Nom.Contains(subAnimal, StringComparison.OrdinalIgnoreCase))
-        //        .ToList();
-
-
-        //    return PartialView("_AnimalList", filteredAnimals);
-        //}
-        //    public ActionResult Rechercher(string subAnimal)
-        //    {
-        //        List<TypeAnimal> listeRecherche = new List<TypeAnimal>();
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-
-        //        {
-        //            SqlCommand cmd = new SqlCommand
-        //            {
-        //                CommandType = CommandType.StoredProcedure,
-        //                CommandText = "findAnimal",
-        //                Connection = conn
-        //            };
-        //            cmd.Parameters.Add(new SqlParameter("@searchTxt", subAnimal + "%"));
-
-        //            conn.Open();
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-
-        //                while (reader.Read())
-        //                {
-        //                    TypeAnimal animalRecherche = new TypeAnimal()
-        //                    {
-        //                        Id = reader.GetInt32(reader.GetOrdinal("id")),
-        //                        Nom = reader.GetString(reader.GetOrdinal("nom")),
-        //                        Description = reader.GetString(reader.GetOrdinal("description")),
-        //                        QuantiteDisponible = reader.GetInt32(reader.GetOrdinal("quantiteDisponible")),
-        //                        PrixAnimal = reader.GetDouble(reader.GetOrdinal("prixAnimal")),
-        //                        Type = reader.GetString(reader.GetOrdinal("type"))
-        //                    };
-        //                    listeRecherche.Add(animalRecherche);
-        //                }
-        //            }
-        //            try
-        //            {
-        //                // Get all animals that match the search criteria
-        //               // listeRecherche = getAnimaux().Where(a => a.Type.StartsWith(subAnimal)).ToList();
-
-        //                // Check if the list is empty
-        //                if (!listeRecherche.Any())
-        //                {
-        //                    return RedirectToAction(nameof(Index)); // Redirect to Index if no matches are found
-        //                }
-
-        //                return View(listeRecherche); // Return the list to the view
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                // Log the exception (not shown here) or handle it as needed
-        //                // Optionally, return an error view or redirect
-        //                return View("Error"); // Example of redirecting to an error view
-        //            }
-        //        }
-
-        //    }
+    
         [HttpGet]
         public ActionResult Rechercher(string search)
         {
@@ -309,7 +243,7 @@ namespace TP1_A16.Controllers
                     Connection = conn
                 };
 
-                // Append the wildcard for SQL LIKE
+                // findAnimal = procedure stocké pour rechercher dans nom, desscription et type
                 cmd.Parameters.Add(new SqlParameter("@searchTxt", search + "%"));
 
                 conn.Open();
@@ -331,7 +265,7 @@ namespace TP1_A16.Controllers
                 }
             }
 
-            // Return the view with the filtered list
+           
             return View("Index", listeRecherche);
         }
 
