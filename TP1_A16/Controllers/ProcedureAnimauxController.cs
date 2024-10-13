@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Data;
 using TP1_A16.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TP1_A16.Controllers
 {
@@ -29,8 +30,8 @@ namespace TP1_A16.Controllers
             conn = new SqlConnection(connectionString);
             cmd = new SqlCommand
             {
-                CommandType = CommandType.Text,
-                CommandText = "SELECT id, nom, description, quantiteDisponible, prixAnimal, type FROM TypeAnimal",
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "getAnimaux",
                 Connection = conn
             };
 
@@ -142,8 +143,8 @@ namespace TP1_A16.Controllers
                 {
                     SqlCommand cmd = new SqlCommand
                     {
-                        CommandType = CommandType.Text,
-                        CommandText = "UPDATE TypeAnimal SET Nom = @Nom, Description = @Description, QuantiteDisponible = @QuantiteDisponible, PrixAnimal = @PrixAnimal, Type = @Type WHERE id = @Id",
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "editAnimal",
                         Connection = conn
                     };
 
@@ -193,22 +194,22 @@ namespace TP1_A16.Controllers
         // POST: TypeAnimalController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, List<TypeAnimal>listeAnimaux)
+        public ActionResult Delete(int id, List<TypeAnimal> listeAnimaux)
         {
             try
             {
-                    // vérifier validité id
-                    if (id <= 0)
-                    {
-                        return NotFound(); // Return NotFound if the ID is invalid
-                    }
+                // vérifier validité id
+                if (id <= 0)
+                {
+                    return NotFound(); // Return NotFound if the ID is invalid
+                }
 
-                    using (SqlConnection conn = new SqlConnection(connectionString))
-                    {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
                     SqlCommand cmd = new SqlCommand
                     {
-                        CommandType = CommandType.Text,
-                        CommandText = "DELETE FROM TypeAnimal WHERE id = @Id",
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "deleteAnimal",
                         Connection = conn
                     };
                     cmd.Parameters.AddWithValue("@Id", id);
@@ -216,7 +217,7 @@ namespace TP1_A16.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();
-                   }
+                }
 
                 ViewBag.SuccessMessage = "Animal successfully deleted!";
                 return RedirectToAction(nameof(Index));
@@ -226,5 +227,113 @@ namespace TP1_A16.Controllers
                 return View();
             }
         }
+
+        //public IActionResult Rechercher(string subAnimal)
+        //{
+        //    // Get the full list of animals from the database
+        //    var allAnimals = getAnimaux();
+
+        //    // Filter the animals based on the search term
+        //    var filteredAnimals = allAnimals
+        //        .Where(a => a.Nom.Contains(subAnimal, StringComparison.OrdinalIgnoreCase))
+        //        .ToList();
+
+
+        //    return PartialView("_AnimalList", filteredAnimals);
+        //}
+        //    public ActionResult Rechercher(string subAnimal)
+        //    {
+        //        List<TypeAnimal> listeRecherche = new List<TypeAnimal>();
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+
+        //        {
+        //            SqlCommand cmd = new SqlCommand
+        //            {
+        //                CommandType = CommandType.StoredProcedure,
+        //                CommandText = "findAnimal",
+        //                Connection = conn
+        //            };
+        //            cmd.Parameters.Add(new SqlParameter("@searchTxt", subAnimal + "%"));
+
+        //            conn.Open();
+        //            using (SqlDataReader reader = cmd.ExecuteReader())
+        //            {
+
+        //                while (reader.Read())
+        //                {
+        //                    TypeAnimal animalRecherche = new TypeAnimal()
+        //                    {
+        //                        Id = reader.GetInt32(reader.GetOrdinal("id")),
+        //                        Nom = reader.GetString(reader.GetOrdinal("nom")),
+        //                        Description = reader.GetString(reader.GetOrdinal("description")),
+        //                        QuantiteDisponible = reader.GetInt32(reader.GetOrdinal("quantiteDisponible")),
+        //                        PrixAnimal = reader.GetDouble(reader.GetOrdinal("prixAnimal")),
+        //                        Type = reader.GetString(reader.GetOrdinal("type"))
+        //                    };
+        //                    listeRecherche.Add(animalRecherche);
+        //                }
+        //            }
+        //            try
+        //            {
+        //                // Get all animals that match the search criteria
+        //               // listeRecherche = getAnimaux().Where(a => a.Type.StartsWith(subAnimal)).ToList();
+
+        //                // Check if the list is empty
+        //                if (!listeRecherche.Any())
+        //                {
+        //                    return RedirectToAction(nameof(Index)); // Redirect to Index if no matches are found
+        //                }
+
+        //                return View(listeRecherche); // Return the list to the view
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // Log the exception (not shown here) or handle it as needed
+        //                // Optionally, return an error view or redirect
+        //                return View("Error"); // Example of redirecting to an error view
+        //            }
+        //        }
+
+        //    }
+        [HttpGet]
+        public ActionResult Rechercher(string search)
+        {
+            List<TypeAnimal> listeRecherche = new List<TypeAnimal>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "findAnimal",
+                    Connection = conn
+                };
+
+                // Append the wildcard for SQL LIKE
+                cmd.Parameters.Add(new SqlParameter("@searchTxt", search + "%"));
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        TypeAnimal animalRecherche = new TypeAnimal()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id")),
+                            Nom = reader.GetString(reader.GetOrdinal("nom")),
+                            Description = reader.GetString(reader.GetOrdinal("description")),
+                            QuantiteDisponible = reader.GetInt32(reader.GetOrdinal("quantiteDisponible")),
+                            PrixAnimal = reader.GetDouble(reader.GetOrdinal("prixAnimal")),
+                            Type = reader.GetString(reader.GetOrdinal("type"))
+                        };
+                        listeRecherche.Add(animalRecherche);
+                    }
+                }
+            }
+
+            // Return the view with the filtered list
+            return View("Index", listeRecherche);
+        }
+
     }
 }
