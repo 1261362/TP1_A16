@@ -8,15 +8,17 @@
         public int QuantiteDisponible { get; set; }
         public double PrixAnimal { get; set; }
         public string Type { get; set; }
+        public String ImageUrl { get; set; }
 
         public TypeAnimal(string nom, string description, int quantiteDisponible,
-            float prixAnimal, string type)
+            float prixAnimal, string type, string imageUrl)
         {
             this.Nom = nom;
             this.Description = description;
             this.QuantiteDisponible = quantiteDisponible;
             this.PrixAnimal = prixAnimal;
             this.Type = type;
+            this.ImageUrl = imageUrl;
         }
 
         // Empty constructor

@@ -15,4 +15,32 @@
     <Folder Include="test\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\AuRevoir.jpeg" />
+    <None Include="wwwroot\images\chat1.jpg" />
+    <None Include="wwwroot\images\chat2.jpeg" />
+    <None Include="wwwroot\images\chat3.jpeg" />
+    <None Include="wwwroot\images\chat4.jpeg" />
+    <None Include="wwwroot\images\cheval1.jpg" />
+    <None Include="wwwroot\images\cheval2.jpeg" />
+    <None Include="wwwroot\images\cheval3.jpeg" />
+    <None Include="wwwroot\images\cheval4.jpeg" />
+    <None Include="wwwroot\images\chien1.jpg" />
+    <None Include="wwwroot\images\chien2.jpeg" />
+    <None Include="wwwroot\images\chien3.jpeg" />
+    <None Include="wwwroot\images\chien4.jpeg" />
+    <None Include="wwwroot\images\chien5.jpeg" />
+    <None Include="wwwroot\images\cobbaye.jpg" />
+    <None Include="wwwroot\images\hamster1.jpg" />
+    <None Include="wwwroot\images\hamster2.jpg" />
+    <None Include="wwwroot\images\hamster3.jpeg" />
+    <None Include="wwwroot\images\ima_1.jpeg" />
+    <None Include="wwwroot\images\lapin1.jpeg" />
+    <None Include="wwwroot\images\lapin2.jpeg" />
+    <None Include="wwwroot\images\oiseau1.jpeg" />
+    <None Include="wwwroot\images\oiseau2.jpg" />
+    <None Include="wwwroot\images\oiseau3.jpg" />
+    <None Include="wwwroot\images\petStore.jpeg" />
+  </ItemGroup>
+
 </Project>

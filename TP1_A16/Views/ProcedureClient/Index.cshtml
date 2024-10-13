@@ -11,9 +11,10 @@
 </p>
 <p>
     <h2>Rechercher un client</h2>
-    <form asp-action="RechercherClient" method="get">
-        <input id="Text1" name="nom" type="text" placeholder="Rechercher Client" />
-        <button type="submit">Rechercher</button>
+    <form asp-action="Rechercher" method="GET">
+        <input type="text" name="search" placeholder="Rechercher un Client" />
+        <button type="submit" class="btn btn-primary">Recherche</button>
+        <button type="submit" class="btn btn-secondary">Tous les Client</button>
     </form>
 </p>
 

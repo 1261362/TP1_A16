@@ -17,54 +17,35 @@ namespace TP1_A16.Controllers
             configuration = _configuration;
         }
 
-       
-        public ActionResult Password(string Password)
-        {
-           
-                if (Password == "gab2024")
-                {
-                 return RedirectToAction("Index");
-                }          
-
-           return View();
-        }
-
-        public ActionResult RechercherClient(string recherche)
+        public ActionResult Rechercher(string search)
         {
             SqlConnection conn;
             SqlCommand cmd;
             SqlDataReader reader;
-            List<Client> listeClient;
+            List<Client> listeRecherche;
             connectionString = configuration.GetConnectionString("defaultConnection");
             conn = new SqlConnection(connectionString);
             cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "RechercheClient";
-            cmd.Connection = conn;
-
-            //Ajouter les parametre de recherche
-            if (!string.IsNullOrEmpty(recherche))
-            {
-                cmd.Parameters.Add(new SqlParameter("@nom", recherche));
-                cmd.Parameters.Add(new SqlParameter("@prenom", recherche));
-                cmd.Parameters.Add(new SqlParameter("@courriel", recherche));
-            }
-
+            cmd.Connection = conn;      
+             // findAnimal = procedure stocké pour rechercher dans nom, desscription et type
+            cmd.Parameters.Add(new SqlParameter("@recherche", search + "%"));
             conn.Open();
+            
             reader = cmd.ExecuteReader();
-            listeClient = new List<Client>();
-            while (reader.Read())
-            {
-                if (recherche ==  "nom" || recherche == "prenom" || recherche == "courriel") {
-                    Client client = new Client();
-                    client.Nom = reader.GetString("nom");
-                    client.Prenom = reader.GetString("prenom");
-                    client.Courriel = reader.GetString("courriel");
-                    listeClient.Add(client);
-                }
-
-            }
-            return View(listeClient);
+            listeRecherche = new List<Client>();        
+             while (reader.Read())
+                    {
+                        Client clientRecherche = new Client()
+                        {                           
+                            Nom = reader.GetString(reader.GetOrdinal("nom")),
+                            Prenom = reader.GetString(reader.GetOrdinal("prenom")),
+                            Courriel = reader.GetString(reader.GetOrdinal("courriel"))                            
+                        };
+                        listeRecherche.Add(clientRecherche);
+                    }
+               return View("Index", listeRecherche);
         }
 
 

@@ -1,8 +1,63 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model IEnumerable<TP1_A16.Models.TypeAnimal>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Liste des animaux</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <!--@Html.DisplayNameFor(model => model.ImageUrl)-->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                <!--Html.DisplayNameFor(model => model.QuantiteDisponible)-->
+                Quantite Disponible
+            </th>
+            <th>
+                <!--@Html.DisplayNameFor(model => model.PrixAnimal)-->
+                Prix($)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/images/@item.ImageUrl" alt="Image animaux" style="width:100px;height:100px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantiteDisponible)
+                </td>
+                <td>
+                    @string.Format("${0:0.00}", item.PrixAnimal) <!-- Using String.Format -->
+                    <!-- ou: -->
+                    <!-- @item.PrixAnimal.ToString("C") -->
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
