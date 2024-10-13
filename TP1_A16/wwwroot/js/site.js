@@ -5,8 +5,8 @@
 function verifyPassword() {
     const passwordInput = document.getElementById("Password");
     const correctPassword = "gab2024";
-    if (passwordInput.value === correctPassword) {
-        document.getElementById("linksContainer").style.display = "block"; // Afficher le conteneur des liens
+    if (passwordInput.value == correctPassword) {
+        document.getElementById("lienPage").style.display = "block"; // Afficher le conteneur des liens
     } else {
         alert("Mot de passe incorrect !");
     }
