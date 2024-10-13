@@ -33,23 +33,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prenom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Courriel)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  nom =item.Nom  }) |
-                @Html.ActionLink("Details", "Details", new { nom = item.Nom }) |
-                @Html.ActionLink("Delete", "Delete", new { nom = item.Nom })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Courriel)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { nom = item.Nom }) |
+                    @Html.ActionLink("Details", "Details", new { nom = item.Nom }) |
+                    @Html.ActionLink("Delete", "Delete", new { nom = item.Nom })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

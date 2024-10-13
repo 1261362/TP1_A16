@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<TP1_A16.Models.TypeAnimal>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h1>Liste des animaux</h1>
 
-<h1>Index</h1>
+<form asp-action="Rechercher" method="GET">
+    <input type="text" name="search" placeholder="Search for animals..." />
+    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="submit" class="btn btn-secondary">Tous les animaux</button>
+</form>
+    
 
-<p>
+    <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+
+
 <table class="table">
     <thead>
         <tr>
