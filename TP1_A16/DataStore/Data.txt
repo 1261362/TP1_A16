@@ -1,38 +1,29 @@
 ﻿
-INSERT INTO TypeAnimal (nom, description, quantiteDisponible, prixAnimal, type) 
-VALUES
--- 4 Chats avec des noms personnalisés
-('Mimi', 'Animal de compagnie indépendant et joueur.', 4, 150.00, 'Chat'),
-('Minou', 'Animal de compagnie affectueux et curieux.', 4, 150.00, 'Chat'),
-('Choupette', 'Chat câlin et joueur.', 4, 150.00, 'Chat'),
-('Félix', 'Chat malin et agile.', 4, 150.00, 'Chat'),
+-- Insérer les données dans la table TypeAnimal
+INSERT INTO TypeAnimal (nom, description, quantiteDisponible, prixAnimal, imageUrl, type) 
+VALUES 
+('Mimine', 'Animal de compagnie indépendant et joueur.', 4, 150, 'chat1.jpg', 'Chat'),
+('Minou', 'Animal de compagnie affectueux et curieux.', 4, 150, 'chat2.jpeg', 'Chat'),
+('Choupette', 'Chat câlin et joueur.', 4, 150, 'chat3.jpeg', 'Chat'),
+('Félix', 'Chat malin et agile.', 4, 150, 'chat4.jpeg', 'Chat'),
+('Pégase', 'Animal de travail et de loisir, idéal pour l’équitation.', 4, 1200, 'cheval1.jpg', 'Cheval'),
+('Star', 'Cheval rapide et élégant.', 4, 1200, 'cheval2.jpeg', 'Cheval'),
+('Comète', 'Cheval fidèle et brave.', 4, 1200, 'cheval3.jpeg', 'Cheval'),
+('Foudre', 'Cheval plein d’énergie.', 4, 1200, 'cheval4.jpeg', 'Cheval'),
+('Rex', 'Chien loyal et protecteur.', 5, 300, 'chien1.jpg', 'Chien'),
+('Buddy', 'Chien amical et joueur.', 5, 300, 'chien2.jpeg', 'Chien'),
+('Bella', 'Chienne affectueuse et douce.', 5, 300, 'chien3.jpeg', 'Chien'),
+('Max', 'Chien intelligent et curieux.', 5, 300, 'chien4.jpeg', 'Chien'),
+('Luna', 'Chienne joyeuse et pleine d’énergie.', 5, 300, 'chien5.jpeg', 'Chien'),
+('Nibbles', 'Petit rongeur domestique, parfait pour les enfants.', 3, 20, 'hamster1.jpg', 'Rongeur'),
+('Fuzzy', 'Hamster curieux et affectueux.', 3, 20, 'hamster2.jpg', 'Rongeur'),
+('Pip', 'Hamster joueur et énergique.', 3, 20, 'hamster3.jpeg', 'Rongeur'),
+('Bunny', 'Lapin doux et affectueux.', 2, 40, 'lapin1.jpeg', 'Rongeur'),
+('Câlin', 'Lapin sociable et joueur.', 2, 40, 'lapin2.jpeg', 'Rongeur'),
+('Chirp', 'Oiseau chanteur coloré et joyeux.', 3, 50, 'oiseau1.jpeg', 'Oiseau'),
+('Sunny', 'Oiseau lumineux et énergique.', 3, 50, 'oiseau2.jpg', 'Oiseau'),
+('Tweet', 'Oiseau amical et bavard.', 3, 50, 'oiseau3.jpg', 'Oiseau');
 
--- 4 Chevaux avec des noms personnalisés
-('Pégase', 'Animal de travail et de loisir, idéal pour l’équitation.', 4, 1200.00, 'Cheval'),
-('Star', 'Cheval rapide et élégant.', 4, 1200.00, 'Cheval'),
-('Comète', 'Cheval fidèle et brave.', 4, 1200.00, 'Cheval'),
-('Foudre', 'Cheval plein d’énergie.', 4, 1200.00, 'Cheval'),
-
--- 5 Chiens avec des noms personnalisés
-('Rex', 'Chien loyal et protecteur.', 5, 300.00, 'Chien'),
-('Buddy', 'Chien amical et joueur.', 5, 300.00, 'Chien'),
-('Bella', 'Chienne affectueuse et douce.', 5, 300.00, 'Chien'),
-('Max', 'Chien intelligent et curieux.', 5, 300.00, 'Chien'),
-('Luna', 'Chienne joyeuse et pleine d’énergie.', 5, 300.00, 'Chien'),
-
--- 3 Hamsters avec des noms personnalisés
-('Nibbles', 'Petit rongeur domestique, parfait pour les enfants.', 3, 20.00, 'Rongeur'),
-('Fuzzy', 'Hamster curieux et affectueux.', 3, 20.00, 'Rongeur'),
-('Pip', 'Hamster joueur et énergique.', 3, 20.00, 'Rongeur'),
-
--- 2 Lapins avec des noms personnalisés
-('Bunny', 'Lapin doux et affectueux.', 2, 40.00, 'Rongeur'),
-('Câlin', 'Lapin sociable et joueur.', 2, 40.00, 'Rongeur'),
-
--- 3 Oiseaux avec des noms personnalisés
-('Chirp', 'Oiseau chanteur coloré et joyeux.', 3, 50.00, 'Oiseau'),
-('Sunny', 'Oiseau lumineux et énergique.', 3, 50.00, 'Oiseau'),
-('Tweet', 'Oiseau amical et bavard.', 3, 50.00, 'Oiseau');
 
 ----------------------------------------------------------------
 INSERT INTO Client (nom, prenom, courriel, telephone) VALUES

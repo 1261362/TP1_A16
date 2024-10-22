@@ -15,6 +15,7 @@ CREATE TABLE TypeAnimal (
     description NVARCHAR(255) NOT NULL,
     quantiteDisponible INT NOT NULL,
     prixAnimal FLOAT NOT NULL,  
+    imageUrl NVARCHAR(255) NOT NULL,
     type NVARCHAR(50) NOT NULL  
 );
 
