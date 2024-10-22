@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TP1_A16.Data;
+using TP1_A16;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ClientContext>(options =>
+builder.Services.AddDbContext<AnimauxContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ClientContext") ?? throw new InvalidOperationException("Connection string 'ClientContext' not found.")));
 
 // Add services to the container.

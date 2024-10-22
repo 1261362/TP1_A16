@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TP1_A16.Data;
+
 using TP1_A16.Models;
 
 namespace TP1_A16.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly ClientContext _context;
+        private readonly AnimauxContext _context;
 
-        public ClientController(ClientContext context)
+        public ClientController(AnimauxContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace TP1_A16.Controllers
         // GET: Client
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Client.ToListAsync());
+            return View(await _context.Clients.ToListAsync());
         }
 
         // GET: Client/Details/5
@@ -33,7 +33,7 @@ namespace TP1_A16.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Client
+            var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.id == id);
             if (client == null)
             {
@@ -66,14 +66,14 @@ namespace TP1_A16.Controllers
         }
 
         // GET: Client/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? Id)
         {
-            if (id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Client.FindAsync(id);
+            var client = await _context.Clients.FindAsync(Id);
             if (client == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace TP1_A16.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,Nom,Prenom,Courriel,Telephone")] Client client)
+        public async Task<IActionResult> Edit(int Id, [Bind("id,Nom,Prenom,Courriel,Telephone")] Client client)
         {
-            if (id != client.id)
+            if (Id != client.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace TP1_A16.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientExists(client.id))
+                    if (!ClientExists(client.Id))
                     {
                         return NotFound();
                     }
@@ -117,15 +117,15 @@ namespace TP1_A16.Controllers
         }
 
         // GET: Client/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? Id)
         {
-            if (id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Client
-                .FirstOrDefaultAsync(m => m.id == id);
+            var client = await _context.Clients
+                .FirstOrDefaultAsync(m => m.id == Id);
             if (client == null)
             {
                 return NotFound();
@@ -137,21 +137,21 @@ namespace TP1_A16.Controllers
         // POST: Client/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int Id)
         {
-            var client = await _context.Client.FindAsync(id);
+            var client = await _context.Clients.FindAsync(Id);
             if (client != null)
             {
-                _context.Client.Remove(client);
+                _context.Clients.Remove(client);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(int id)
+        private bool ClientExists(int Id)
         {
-            return _context.Client.Any(e => e.id == id);
+            return _context.Clients.Any(e => e.id == Id);
         }
     }
 }
