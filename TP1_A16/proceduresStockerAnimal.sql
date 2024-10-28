@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[getAnimaux]
 AS
 BEGIN
-	SELECT id, nom, description, quantiteDisponible, prixAnimal, type 
+	SELECT id, nom, description, quantiteDisponible, prixAnimal,imageUrl, type 
 	FROM TypeAnimal
 END;
 
