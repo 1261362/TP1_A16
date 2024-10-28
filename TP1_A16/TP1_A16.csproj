@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="proceduresStockerAnimal.sql" />
+    <Content Include="DataStore\proceduresStockerAnimal.sql" />
   </ItemGroup>
 
   <ItemGroup>
