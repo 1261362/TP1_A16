@@ -1,8 +1,7 @@
-﻿--liste des animaux 
 CREATE PROCEDURE [dbo].[getAnimaux]
 AS
 BEGIN
-	SELECT * 
+	SELECT id, nom, description, quantiteDisponible, prixAnimal,imageUrl, type 
 	FROM TypeAnimal
 END;
 
