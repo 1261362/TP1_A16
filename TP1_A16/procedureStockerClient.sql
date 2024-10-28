@@ -1,4 +1,4 @@
-﻿//Ajouter CLient----------------------------------
+﻿--Ajouter CLient----------------------------------
 CREATE PROCEDURE AjoutClient
     @Nom NVARCHAR(50),
     @Prenom NVARCHAR(50),
@@ -10,64 +10,8 @@ BEGIN
     VALUES (@Nom, @Prenom, @Courriel, @Telephone);
 END
 
-//deleteAnimal
-CREATE PROCEDURE [dbo].[deleteAnimal]
-    @id INT
-AS
-BEGIN
-    DELETE FROM TypeAnimal
-    WHERE id = @id;
-END;
+-- GetDetailsClient
 
-//editAnimal----------------------------------
-CREATE PROCEDURE [dbo].[editAnimal] 
-
-	@id INT,
-	@nom NVARCHAR(50),
-    @description NVARCHAR(255),
-    @quantiteDisponible INT,
-    @prixAnimal FLOAT,
-    @type NVARCHAR(50)
-AS
-BEGIN
-
-	UPDATE TypeAnimal
-	SET
-	nom = @nom,
-    description = @description,
-    quantiteDisponible = @quantiteDisponible,
-    prixAnimal = @prixAnimal,
-    type = @type
-		
-	WHERE id = @id;
-END;
-
-//findAnimal----------------------------------
-CREATE PROCEDURE [dbo].[findAnimal]
-    @searchTxt NVARCHAR(255)
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    SELECT * 
-    FROM TypeAnimal 
-    WHERE 
-        type LIKE @searchTxt + '%' OR 
-        nom LIKE @searchTxt + '%' OR 
-        description LIKE @searchTxt + '%';
-END;
-
-//getAnimaux----------------------------------
-  --liste des animaux 
-CREATE PROCEDURE [dbo].[getAnimaux]
-AS
-BEGIN
-	SELECT * 
-	FROM TypeAnimal;
-END;
-
-//GetDetailsClient----------------------------------
--- Créer la procédure GetDetailsClient
 CREATE PROCEDURE [dbo].[GetDetailsClient]
     -- Ajouter les paramètres pour la procédure stockée
     @nom as nvarchar(50) = NULL,
@@ -78,7 +22,6 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Sélectionner les films en fonction des paramètres
     select Nom, Prenom, Courriel, telephone
     from [Animaux].dbo.Client
     where (@nom IS NULL OR Nom = @nom)
@@ -87,7 +30,7 @@ BEGIN
 	  and (@telephone is null or telephone = @telephone);
 END
 
-//GetListeClient----------------------------------
+--GetListeClient----------------------------------
 -- Créer la procédure stockée
 CREATE PROCEDURE [dbo].[GetListeClient]
     -- Ajouter les paramètres pour la procédure stockée
@@ -106,7 +49,7 @@ BEGIN
       and (@courriel IS NULL OR Courriel = @courriel);
 END
 
-//InsertClient----------------------------------
+--InsertClient----------------------------------
 CREATE PROCEDURE [dbo].[InsertAnimal]
 
     @nom NVARCHAR(50),
@@ -120,13 +63,13 @@ BEGIN
     VALUES (@nom, @description, @quantiteDisponible, @prixAnimal, @type);
 END;
 
-//rechercheClient----------------------------------
+--rechercheClient----------------------------------
 CREATE procedure [dbo].[RechercheClient]
 	@recherche as nvarchar(24) = NULL
 as 
 begin
 	SET NOCOUNT ON;
-	 -- Sélectionner les client en fonction des paramètres
+	 
     select Nom, Prenom, Courriel
     from [Animaux].dbo.Client
     where  
@@ -135,7 +78,7 @@ begin
 	courriel LIKE @recherche + '%'
 END
 
-//supprimerClient----------------------------------
+--supprimerClient----------------------------------
 CREATE procedure [dbo].[SupprimerClient]
 	@nom nvarchar(50)
 AS
@@ -144,7 +87,7 @@ BEGIN
 	WHERE nom = @nom;
 END;
 
-//Updateclient----------------------------------
+--Updateclient----------------------------------
 CREATE procedure [dbo].[UpdateClient]
     @nom NVARCHAR(50),
     @prenom NVARCHAR(50),

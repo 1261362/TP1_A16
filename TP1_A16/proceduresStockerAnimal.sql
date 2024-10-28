@@ -1,10 +1,4 @@
-﻿informations:
-Connection string: {
-  "connectionStrings": {
-    "defaultConnection": "Data Source=(localdb)\\msSqlLocaldb;Initial Catalog=petshop;Integrated Security=True"
-  },
-  ----------
-  Code pour les procedures stockées : 
+﻿  --Code pour les procedures stockées : 
 
   --liste des animaux 
 
