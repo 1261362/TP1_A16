@@ -31,7 +31,6 @@ BEGIN
 END
 
 --GetListeClient----------------------------------
--- Créer la procédure stockée
 CREATE PROCEDURE [dbo].[GetListeClient]
     -- Ajouter les paramètres pour la procédure stockée
     @nom as nvarchar(24) = NULL,
@@ -48,20 +47,6 @@ BEGIN
       and (@prenom IS NULL OR Prenom = @prenom)
       and (@courriel IS NULL OR Courriel = @courriel);
 END
-
---InsertClient----------------------------------
-CREATE PROCEDURE [dbo].[InsertAnimal]
-
-    @nom NVARCHAR(50),
-    @description NVARCHAR(255),
-    @quantiteDisponible INT,
-    @prixAnimal FLOAT,
-    @type NVARCHAR(50)
-AS
-BEGIN
-    INSERT INTO TypeAnimal (Nom, Description, QuantiteDisponible, PrixAnimal, Type)
-    VALUES (@nom, @description, @quantiteDisponible, @prixAnimal, @type);
-END;
 
 --rechercheClient----------------------------------
 CREATE procedure [dbo].[RechercheClient]
